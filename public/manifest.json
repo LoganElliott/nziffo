@@ -7,6 +7,11 @@
   "orientation": "portrait",
   "icons": [
     {
+      "src": "images/icons/favicon.ico",
+      "sizes": "12x12",
+      "type": "image/png"
+    },
+    {
       "src": "images/icons/icon-72x72.png",
       "sizes": "72x72",
       "type": "image/png"

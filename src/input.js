@@ -5,7 +5,7 @@ import Button from "@material-ui/core/Button";
 const styles = {
   textField: {
     margin: "10px",
-    width: "400px"
+    width: "380px"
   },
   button: {
     margin: "10px"

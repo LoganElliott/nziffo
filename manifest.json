@@ -3,7 +3,7 @@
   "short_name": "NZIFFO",
   "theme_color": "#42c0fb",
   "background_color": "#42c0fb",
-  "display": "browser",
+  "display": "minimal-ui",
   "orientation": "portrait",
   "icons": [
     {

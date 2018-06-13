@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import queryString from "query-string";
+import queryString from "qs";
 import Button from "@material-ui/core/Button";
 
 import "./App.css";
@@ -25,7 +25,9 @@ class App extends Component {
 
   componentDidMount() {
     console.log("this.props.location.search", this.props.location.search);
-    const query = queryString.parse(this.props.location.search);
+    const query = queryString.parse(this.props.location.search, {
+      ignoreQueryPrefix: true
+    });
     if (query["wishlistid"]) {
       this.setState({ wishListId: query["wishlistid"] });
     }

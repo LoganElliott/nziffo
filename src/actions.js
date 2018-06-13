@@ -1,3 +1,4 @@
+import ReactGA from "react-ga";
 const apiEndpoint = "https://nzff-backend.herokuapp.com/api/nzfforg/wishlist";
 
 export const fetchMovies = async wishListId => {
@@ -19,11 +20,26 @@ export const fetchMovies = async wishListId => {
     let response = await fetch(myRequest);
     data = await response.json();
     if (response.ok) {
+      ReactGA.event({
+        category: "Main page",
+        action: "Get Movies",
+        label: "Success"
+      });
       return data;
     }
+    ReactGA.event({
+      category: "Main page",
+      action: "Get Movies",
+      label: "Failed"
+    });
     console.log("Unable to get movies,", data.message);
     return [];
   } catch (e) {
+    ReactGA.event({
+      category: "Main page",
+      action: "Get Movies",
+      label: "Failed"
+    });
     console.log("Unable to get movies", e);
   }
 };

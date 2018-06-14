@@ -1,14 +1,13 @@
 import React, { Component } from "react";
 import TextField from "@material-ui/core/TextField";
+import { nziffShareUrl } from "./Constants";
 
 const styles = {
   textField: {
     margin: "10px",
-    width: "380px"
+    minWidth: "250px"
   }
 };
-
-const nziffUrl = "https://www.nziff.co.nz/s/";
 
 class Input extends Component {
   constructor(props) {
@@ -26,7 +25,7 @@ class Input extends Component {
       this.props.wishListId &&
       this.props.wishListId !== prevProps.wishListId
     ) {
-      this.setState({ wishListUrl: nziffUrl + this.props.wishListId });
+      this.setState({ wishListUrl: nziffShareUrl + this.props.wishListId });
     } else if (this.props.wishListId !== prevProps.wishListId) {
       this.setState({ wishListUrl: "" });
     }
@@ -37,11 +36,10 @@ class Input extends Component {
       "(?:https?://)?(?:www.)?nziff.co.nz/(?:[0-9]{4}/[a-z]+/wishlist|s)/([A-Za-z0-9]+)"
     );
     const isValidUrl = urlRegex.test(newUrl);
-    debugger;
     if (isValidUrl) {
       const wishList = urlRegex.exec(newUrl);
       this.props.onUpdate(wishList[1]);
-    } else if (newUrl === "" || newUrl === nziffUrl) {
+    } else if (newUrl === "" || newUrl === nziffShareUrl) {
       this.props.onUpdate("");
     } else {
       this.props.onUpdate(null);
@@ -50,16 +48,14 @@ class Input extends Component {
 
   render() {
     return (
-      <div>
-        <TextField
-          id="wishlistUrl"
-          label="Enter Wishlist url"
-          value={this.state.wishListUrl}
-          style={styles.textField}
-          error={this.props.wishListId === null}
-          onChange={event => this.validateUrl(event.target.value)}
-        />
-      </div>
+      <TextField
+        id="wishlistUrl"
+        label="Enter Wishlist url"
+        value={this.state.wishListUrl}
+        style={styles.textField}
+        error={this.props.wishListId === null}
+        onChange={event => this.validateUrl(event.target.value)}
+      />
     );
   }
 }

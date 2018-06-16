@@ -1,5 +1,5 @@
 import ReactGA from "react-ga";
-const apiEndpoint = "https://nzff-backend.herokuapp.com/api/nzfforg/wishlist";
+const apiEndpoint = "https://nzff-backend.herokuapp.com/wishlist";
 
 export const fetchMovies = async wishListId => {
   if (!wishListId) {

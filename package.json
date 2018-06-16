@@ -5,9 +5,13 @@
   "homepage": "https://nziffo.firebaseapp.com/",
   "dependencies": {
     "@material-ui/core": "1.2.1",
+    "@material-ui/icons": "1.1.0",
     "ajv": "6.5.1",
+    "classnames": "2.2.6",
+    "moment": "2.22.2",
     "prop-types": "15.6.1",
     "qs": "6.5.2",
+    "rc-slider": "8.6.1",
     "react": "16.4.1",
     "react-dom": "16.4.1",
     "react-ga": "2.5.3",

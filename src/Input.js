@@ -5,7 +5,7 @@ import { nziffShareUrl } from "./Constants";
 const styles = {
   textField: {
     margin: "10px",
-    minWidth: "250px"
+    minWidth: "300px"
   }
 };
 

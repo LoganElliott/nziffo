@@ -17,6 +17,7 @@ const styles = {
   card: {
     margin: "10px",
     flexGrow: 1,
+    minWidth: "320px",
     maxWidth: "500px"
   },
   media: {

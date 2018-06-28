@@ -7,6 +7,7 @@ import { Range } from "rc-slider";
 import "rc-slider/assets/index.css";
 import moment from "moment";
 import { withStyles } from "@material-ui/core/styles";
+import PropTypes from "prop-types";
 
 const styles = () => ({
   drawerPaper: {
@@ -33,45 +34,20 @@ const styles = () => ({
 class Filtering extends Component {
   constructor(props) {
     super(props);
-    const daysInWeek = [
-      "Monday",
-      "Tuesday",
-      "Wednesday",
-      "Thursday",
-      "Friday",
-      "Saturday",
-      "Sunday"
-    ];
-
-    const days = daysInWeek.reduce((accumulator, day) => {
-      accumulator[day] = {
-        key: day,
-        disabled: false,
-        startTime: moment().startOf("day"),
-        endTime: moment().endOf("day")
-      };
-
-      return accumulator;
-    }, {});
-
-    this.state = {
-      days
-    };
 
     this.handleSwitchChange = this.handleSwitchChange.bind(this);
     this.handleTimeRangeChange = this.handleTimeRangeChange.bind(this);
   }
 
   handleSwitchChange = name => event => {
-    this.setState({
-      days: {
-        ...this.state.days,
-        [name]: {
-          ...this.state.days[name],
-          disabled: event.target.checked
-        }
+    const updatedFilters = {
+      ...this.props.filters,
+      [name]: {
+        ...this.props.filters[name],
+        excluded: event.target.checked
       }
-    });
+    };
+    this.props.updateFilters(updatedFilters);
   };
 
   handleTimeRangeChange = name => range => {
@@ -88,45 +64,43 @@ class Filtering extends Component {
       .endOf("day")
       .subtract(endTimeMinutes, "minutes");
 
-    this.setState({
-      days: {
-        ...this.state.days,
-        [name]: {
-          ...this.state.days[name],
-          startTime,
-          endTime
-        }
+    this.props.updateFilters({
+      ...this.props.filters,
+      [name]: {
+        ...this.props.filters[name],
+        from: startTime,
+        to: endTime
       }
     });
   };
 
   renderDrawerContent() {
-    return Object.keys(this.state.days).map(val => {
-      const day = this.state.days[val];
+    return Object.keys(this.props.filters).map(val => {
+      const day = this.props.filters[val];
       return (
-        <div key={day.key}>
+        <div key={day.day}>
           <div style={styles.dayContainer}>
-            <div style={styles.dayTitle}>{day.key}</div>
+            <div style={styles.dayTitle}>{day.day}</div>
             <FormControlLabel
               control={
                 <Switch
-                  checked={day.disabled}
-                  onChange={this.handleSwitchChange(day.key)}
-                  value={day.key}
+                  checked={day.excluded}
+                  onChange={this.handleSwitchChange(day.day)}
+                  value={day.day}
                 />
               }
-              label={day.disabled ? "disabled" : "disable?"}
+              label={day.excluded ? "disabled" : "disable?"}
             />
           </div>
           <div style={styles.rangeContainer}>
-            {day.startTime.format("LT")}
+            {day.from.format("LT")}
             <Range
               allowCross={false}
               defaultValue={[0, 96]}
-              onChange={this.handleTimeRangeChange(day.key)}
+              onChange={this.handleTimeRangeChange(day.day)}
               pushable={4}
             />
-            {day.endTime.format("LT")}
+            {day.to.format("LT")}
           </div>
         </div>
       );
@@ -175,5 +149,11 @@ class Filtering extends Component {
     );
   }
 }
+
+Filtering.propTypes = {
+  updateFilters: PropTypes.func.isRequired,
+  onDrawerToggle: PropTypes.func.isRequired,
+  mobileOpen: PropTypes.bool.isRequired
+};
 
 export default withStyles(styles)(Filtering);

@@ -4,7 +4,9 @@ import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
 import Typography from "@material-ui/core/Typography";
-
+import Avatar from "@material-ui/core/Avatar";
+import moment from "moment";
+import randomMC from "random-material-color";
 import { nziffBaseUrl } from "./Constants";
 
 const styles = {
@@ -23,23 +25,51 @@ const styles = {
   media: {
     height: 0,
     paddingTop: "56.25%" // 16:9
+  },
+  movieDetailsContainer: {
+    display: "flex"
+  },
+  movieDetails: {
+    display: "flex",
+    alignItems: "center",
+    marginRight: "34px"
   }
 };
 
-const Movie = ({ movie }) => (
+const Movie = ({ movie, index }) => (
   <Card style={styles.card}>
     <CardMedia
       style={styles.media}
-      image={movie.thumbnailUrl}
+      image={new URL(movie.thumbnailUrl, nziffBaseUrl).href}
       title={movie.title}
     />
     <CardContent>
-      <Typography gutterBottom variant="headline">
-        <a href={new URL(movie.websiteUrl, nziffBaseUrl)}>{movie.title}</a>
-      </Typography>
-      <Typography gutterBottom variant="subheading">
-        {new Date(movie.startTime).toLocaleString()}
-      </Typography>
+      <div style={styles.movieDetailsContainer}>
+        <div style={styles.movieDetails}>
+          <Avatar
+            style={{
+              margin: 10,
+              background: randomMC.getColor({ text: movie.title })
+            }}
+          >
+            {index + 1}
+          </Avatar>
+        </div>
+        <div>
+          <Typography gutterBottom variant="headline">
+            <a href={new URL(movie.websiteUrl, nziffBaseUrl).href}>
+              {movie.title}
+            </a>
+          </Typography>
+          <Typography gutterBottom variant="subheading">
+            {moment(movie.endTime).diff(moment(movie.startTime), "minutes")}{" "}
+            minutes
+          </Typography>
+          <Typography gutterBottom variant="subheading">
+            {new Date(movie.startTime).toLocaleString()}
+          </Typography>
+        </div>
+      </div>
     </CardContent>
   </Card>
 );
@@ -51,7 +81,9 @@ const Movies = props => {
 
   return (
     <div style={styles.container}>
-      {props.movies.map(movie => <Movie key={movie.title} movie={movie} />)}
+      {props.movies.map((movie, index) => (
+        <Movie key={movie.title} movie={movie} index={index} />
+      ))}
     </div>
   );
 };
@@ -62,7 +94,6 @@ Movies.propTypes = {
       title: PropTypes.string.isRequired,
       thumbnailUrl: PropTypes.string.isRequired,
       startTime: PropTypes.string.isRequired,
-      duration: PropTypes.string.isRequired,
       websiteUrl: PropTypes.string.isRequired
     })
   )

@@ -57,6 +57,9 @@ const styles = theme => ({
 const staticStyles = {
   progress: {
     margin: "60px"
+  },
+  linearContainer: {
+    height: 5
   }
 };
 
@@ -168,12 +171,16 @@ class App extends Component {
             [classes.contentShiftLeft]: true
           })}
         >
-          {this.state.loading &&
-            this.state.movies.length > 0 && (
-              <div>
-                <LinearProgress color="secondary" />
-              </div>
-            )}
+          {
+            <div style={staticStyles.linearContainer}>
+              {this.state.loading &&
+                this.state.movies.length > 0 && (
+                  <div>
+                    <LinearProgress color="secondary" />
+                  </div>
+                )}
+            </div>
+          }
           <h1 className="App-title">New Zealand Film Festival Organiser</h1>
           <div style={styles.inputContainer}>
             <Input

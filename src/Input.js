@@ -1,11 +1,28 @@
 import React, { Component } from "react";
 import TextField from "@material-ui/core/TextField";
+import Button from "@material-ui/core/Button";
+import HelpOutline from "@material-ui/icons/Help";
+import Dialog from "@material-ui/core/Dialog";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import DialogTitle from "@material-ui/core/DialogTitle";
+
 import { nziffShareUrl } from "./Constants";
 
 const styles = {
   textField: {
     margin: "10px",
     minWidth: "300px"
+  },
+  container: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  help: {
+    marginTop: 10,
+    color: "#000",
+    backgroundColor: "inherit"
   }
 };
 
@@ -14,10 +31,13 @@ class Input extends Component {
     super(props);
 
     this.state = {
-      wishListUrl: ""
+      wishListUrl: "",
+      helpDialogOpen: false
     };
 
     this.validateUrl = this.validateUrl.bind(this);
+    this.handleClickOpen = this.handleClickOpen.bind(this);
+    this.handleClose = this.handleClose.bind(this);
   }
 
   componentDidUpdate(prevProps) {
@@ -46,16 +66,52 @@ class Input extends Component {
     }
   }
 
+  handleClickOpen = () => {
+    this.setState({ helpDialogOpen: true });
+  };
+
+  handleClose = () => {
+    this.setState({ helpDialogOpen: false });
+  };
+
+  help() {
+    return (
+      <Dialog
+        open={this.state.helpDialogOpen}
+        onClose={this.handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          {"What is a wishlist url?"}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            The wishlist url is the url that the NZIFF gives you to share with
+            other people. e.g. www.nziff.co.nz/s/18WI . To find it go to your
+            wishlist on the NZIFF website.
+          </DialogContentText>
+        </DialogContent>
+      </Dialog>
+    );
+  }
+
   render() {
     return (
-      <TextField
-        id="wishlistUrl"
-        label="Enter Wishlist url"
-        value={this.state.wishListUrl}
-        style={styles.textField}
-        error={this.props.wishListId === null}
-        onChange={event => this.validateUrl(event.target.value)}
-      />
+      <div style={styles.container}>
+        <TextField
+          id="wishlistUrl"
+          label="Enter Wishlist url"
+          value={this.state.wishListUrl}
+          style={styles.textField}
+          error={this.props.wishListId === null}
+          onChange={event => this.validateUrl(event.target.value)}
+        />
+        <Button style={styles.help} onClick={this.handleClickOpen}>
+          <HelpOutline style={styles.help} />
+        </Button>
+        {this.help()}
+      </div>
     );
   }
 }

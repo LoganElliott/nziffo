@@ -46,7 +46,6 @@ export const fetchMovies = async (wishListId, filters) => {
     console.log("Unable to get movies,", data.message);
     return null;
   } catch (e) {
-    debugger;
     ReactGA.event({
       category: "Main page",
       action: "Get Movies",

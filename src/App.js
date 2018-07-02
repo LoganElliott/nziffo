@@ -14,6 +14,8 @@ import { fetchMovies } from "./actions";
 
 import Movies from "./Movies";
 import Filter from "./Filtering";
+import About from "./About";
+
 import moment from "moment/moment";
 import deepEqual from "fast-deep-equal";
 
@@ -212,6 +214,7 @@ class App extends Component {
                 Filter Times
               </Button>
             </Hidden>
+            <About />
           </div>
           {this.state.loading &&
             this.state.movies.length === 0 && (

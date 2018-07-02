@@ -88,8 +88,16 @@ class Input extends Component {
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
             The wishlist url is the url that the NZIFF gives you to share with
-            other people. e.g. www.nziff.co.nz/s/18WI . To find it go to your
-            wishlist on the NZIFF website.
+            other people. e.g.<a href={"www.nziff.co.nz/s/18WI"}>
+              www.nziff.co.nz/s/18WI
+            </a>. To find it go to your wishlist on the{" "}
+            <a href="https://www.nziff.co.nz/2018/auckland/wishlist">
+              NZIFF website
+            </a>.
+          </DialogContentText>
+          <DialogContentText>
+            The times of the movies in your wishlist are ignored, just put the
+            movies you want to see in there.
           </DialogContentText>
         </DialogContent>
       </Dialog>

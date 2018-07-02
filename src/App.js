@@ -6,7 +6,7 @@ import { withStyles } from "@material-ui/core/styles";
 import FilterIcon from "@material-ui/icons/FilterList";
 import Hidden from "@material-ui/core/Hidden";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import green from "@material-ui/core/colors/green";
+import LinearProgress from "@material-ui/core/LinearProgress";
 
 import "./App.css";
 import Input from "./Input";
@@ -23,7 +23,6 @@ const styles = theme => ({
   content: {
     flexGrow: 1,
     backgroundColor: theme.palette.background.default,
-    padding: theme.spacing.unit * 3,
     transition: theme.transitions.create("margin", {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen
@@ -49,29 +48,21 @@ const styles = theme => ({
   button: {
     margin: "10px"
   },
-  filterButton: {
-    padding: "0px 16px",
-    color: "yellow"
-  },
   wrapper: {
     margin: theme.spacing.unit,
     position: "relative"
-  },
-  buttonProgress: {
-    color: green[500],
-    position: "absolute",
-    top: "50%",
-    left: "50%",
-    marginTop: -12,
-    marginLeft: -12
-  },
-  buttonSuccess: {
-    backgroundColor: green[500],
-    "&:hover": {
-      backgroundColor: green[700]
-    }
   }
 });
+
+const staticStyles = {
+  progress: {
+    margin: "60px"
+  },
+  linear: {
+    position: "absolute",
+    width: "100%"
+  }
+};
 
 const daysInWeek = [
   "Monday",
@@ -117,7 +108,7 @@ class App extends Component {
       ignoreQueryPrefix: true
     });
     if (query["wishlistid"]) {
-      this.setState({ wishListId: query["wishlistid"] });
+      this.setState({ wishListId: query["wishlistid"] }, this.fetchMovies);
     }
   }
 
@@ -149,6 +140,8 @@ class App extends Component {
   }
 
   async fetchMovies() {
+    this.setState({ loading: true });
+
     const movies = await fetchMovies(
       this.state.wishListId,
       this.excludeDefaultFilters(this.state.filters)
@@ -156,6 +149,7 @@ class App extends Component {
     if (movies) {
       this.setState({ movies: movies.movieList });
     }
+    this.setState({ loading: false });
   }
 
   render() {
@@ -178,6 +172,12 @@ class App extends Component {
             [classes.contentShiftLeft]: true
           })}
         >
+          {this.state.loading &&
+            this.state.movies.length > 0 && (
+              <div style={staticStyles.linear}>
+                <LinearProgress color="secondary" />
+              </div>
+            )}
           <h1 className="App-title">New Zealand Film Festival Organiser</h1>
           <div style={styles.inputContainer}>
             <Input
@@ -196,12 +196,6 @@ class App extends Component {
               >
                 Get Movies!
               </Button>
-              {this.state.loading && (
-                <CircularProgress
-                  size={24}
-                  className={classes.buttonProgress}
-                />
-              )}
             </div>
 
             <Hidden mdUp>
@@ -211,11 +205,18 @@ class App extends Component {
                 onClick={this.onDrawerToggle}
                 className={styles.filterButton}
               >
-                <FilterIcon style={{ fontSize: 20 }} />
+                <FilterIcon style={{ fontSize: 20, margin: "0 4px" }} />
                 Filter Times
               </Button>
             </Hidden>
           </div>
+          {this.state.loading &&
+            this.state.movies.length === 0 && (
+              <div style={staticStyles.progress}>
+                <CircularProgress size={160} />
+              </div>
+            )}
+
           <Movies movies={this.state.movies} />
         </main>
       </div>

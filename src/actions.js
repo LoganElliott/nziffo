@@ -10,7 +10,8 @@ export const fetchMovies = async (wishListId, filters) => {
     ...filter,
     day: filter.day.toUpperCase(),
     from: filter.from.format("HH:mm:ss"),
-    to: filter.to.format("HH:mm:ss")
+    to: filter.to.format("HH:mm:ss"),
+    excluded: !filter.included
   }));
 
   let data;

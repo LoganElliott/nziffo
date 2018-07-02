@@ -86,7 +86,7 @@ const daysInWeek = [
 const filtersInit = daysInWeek.reduce((accumulator, day) => {
   accumulator[day] = {
     day: day,
-    excluded: false,
+    included: true,
     from: moment().startOf("day"),
     to: moment().endOf("day")
   };
@@ -139,7 +139,7 @@ class App extends Component {
   }
 
   onUpdateFilters(filters) {
-    this.setState({ filters });
+    this.setState({ filters }, this.fetchMovies);
   }
 
   excludeDefaultFilters(filters) {

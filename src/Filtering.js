@@ -2,7 +2,7 @@ import React, { Component, Fragment } from "react";
 import Drawer from "@material-ui/core/Drawer";
 import Hidden from "@material-ui/core/Hidden";
 import Switch from "@material-ui/core/Switch";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
+
 import { Range } from "rc-slider";
 import "rc-slider/assets/index.css";
 import moment from "moment";
@@ -21,13 +21,45 @@ const styles = () => ({
   range: {
     height: "14px"
   },
-  dayContainer: {
+  dayEnabledContainer: {
     display: "flex",
-    justifyContent: "center",
+    justifyContent: "space-between",
     alignItems: "center"
   },
   dayTitle: {
-    margin: "0 10px"
+    margin: "0 10px",
+    fontWeight: 700,
+    fontSize: "22px"
+  },
+  filterContainerDesktop: {
+    display: "flex",
+    alignItems: "center",
+    flexDirection: "column",
+    flexGrow: 1,
+    margin: "60px 0"
+  },
+  filterContainerMobile: {
+    display: "flex",
+    alignItems: "center",
+    flexDirection: "column",
+    flexGrow: 1
+  },
+  dayContainer: {
+    flex: 1,
+    padding: "10px",
+    borderBottom: "1px solid #ccc"
+  },
+  from: {
+    display: "flex",
+    fontSize: "14px"
+  },
+  to: {
+    display: "flex",
+    justifyContent: "flex-end",
+    fontSize: "14px"
+  },
+  slider: {
+    margin: "6px 0"
   }
 });
 
@@ -44,7 +76,7 @@ class Filtering extends Component {
       ...this.props.filters,
       [name]: {
         ...this.props.filters[name],
-        excluded: event.target.checked
+        included: event.target.checked
       }
     };
     this.props.updateFilters(updatedFilters);
@@ -78,29 +110,31 @@ class Filtering extends Component {
     return Object.keys(this.props.filters).map(val => {
       const day = this.props.filters[val];
       return (
-        <div key={day.day}>
-          <div style={styles.dayContainer}>
-            <div style={styles.dayTitle}>{day.day}</div>
-            <FormControlLabel
-              control={
-                <Switch
-                  checked={day.excluded}
-                  onChange={this.handleSwitchChange(day.day)}
-                  value={day.day}
-                />
-              }
-              label={day.excluded ? "disabled" : "disable?"}
+        <div key={day.day} style={styles().dayContainer}>
+          <div style={styles().dayEnabledContainer}>
+            <div style={styles().dayTitle}>{day.day}</div>
+            <Switch
+              checked={day.included}
+              onChange={this.handleSwitchChange(day.day)}
+              value={day.day}
             />
           </div>
-          <div style={styles.rangeContainer}>
-            {day.from.format("LT")}
+          <div style={styles().rangeContainer}>
+            <div style={styles().from}>{day.from.format("LT")}</div>
             <Range
               allowCross={false}
               defaultValue={[0, 96]}
               onChange={this.handleTimeRangeChange(day.day)}
               pushable={4}
+              style={styles().slider}
+              trackStyle={[{ backgroundColor: "#3f51b5" }]}
+              handleStyle={[
+                { borderColor: "#3f51b5" },
+                { borderColor: "#3f51b5" }
+              ]}
+              max={96}
             />
-            {day.to.format("LT")}
+            <div style={styles().to}>{day.to.format("LT")}</div>
           </div>
         </div>
       );
@@ -118,7 +152,9 @@ class Filtering extends Component {
             keepMounted: true // Better open performance on mobile.
           }}
         >
-          {this.renderDrawerContent()}
+          <div style={styles().filterContainerMobile}>
+            {this.renderDrawerContent()}
+          </div>
         </Drawer>
       </Hidden>
     );
@@ -134,7 +170,9 @@ class Filtering extends Component {
           open
           classes={{ paper: classes.drawerPaper }}
         >
-          {this.renderDrawerContent()}
+          <div style={styles().filterContainerDesktop}>
+            {this.renderDrawerContent()}
+          </div>
         </Drawer>
       </Hidden>
     );

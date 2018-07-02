@@ -57,10 +57,6 @@ const styles = theme => ({
 const staticStyles = {
   progress: {
     margin: "60px"
-  },
-  linear: {
-    position: "absolute",
-    width: "100%"
   }
 };
 
@@ -174,7 +170,7 @@ class App extends Component {
         >
           {this.state.loading &&
             this.state.movies.length > 0 && (
-              <div style={staticStyles.linear}>
+              <div>
                 <LinearProgress color="secondary" />
               </div>
             )}

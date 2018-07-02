@@ -13,6 +13,15 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="theme-color" content="#000000">
+    <meta property="og:title" content="New Zealand Film Festival Organiser" />
+    <meta property="og:url" content="https://nziffo.space" />
+    <meta property="og:type" content="website"/>
+    <meta property="og:image" content="https://nziffo.space/images/nziffo.jpg" />
+    <meta property="og:image:alt" content="Share image for NZIFFO" />
+    <meta property="og:description" content="Seeing a lot of films at the NZIFF? NZIFFO will help you schedule when to see them!" />
+    <meta name="twitter:card" content="summary"/>
+    <meta name="twitter:creator" content="@L0gyb" />
+    <meta property="fb:app_id" content="281276292610328" />
     <!--
       manifest.json provides metadata used when your web app is added to the
       homescreen on Android. See https://developers.google.com/web/fundamentals/engage-and-retain/web-app-manifest/
@@ -31,6 +40,27 @@
     <title>NZIFFO</title>
   </head>
   <body>
+    <script>
+      window.fbAsyncInit = function() {
+        FB.init({
+          appId      : '281276292610328',
+          cookie     : true,
+          xfbml      : true,
+          version    : 'v3.0'
+        });
+
+        FB.AppEvents.logPageView();
+
+      };
+
+      (function(d, s, id){
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) {return;}
+        js = d.createElement(s); js.id = id;
+        js.src = "https://connect.facebook.net/en_US/sdk.js";
+        fjs.parentNode.insertBefore(js, fjs);
+      }(document, 'script', 'facebook-jssdk'));
+    </script>
     <noscript>
       You need to enable JavaScript to run this app.
     </noscript>

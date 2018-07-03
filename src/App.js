@@ -18,6 +18,7 @@ import About from "./About";
 
 import moment from "moment/moment";
 import deepEqual from "fast-deep-equal";
+import Error from "./Error";
 
 const drawerWidth = 240;
 
@@ -47,9 +48,6 @@ const styles = theme => ({
     justifyContent: "center",
     flexWrap: "wrap"
   },
-  button: {
-    margin: "10px"
-  },
   wrapper: {
     margin: theme.spacing.unit,
     position: "relative"
@@ -62,6 +60,9 @@ const staticStyles = {
   },
   linearContainer: {
     height: 5
+  },
+  button: {
+    margin: "10px"
   }
 };
 
@@ -95,7 +96,8 @@ class App extends Component {
       mobileOpen: false,
       filters: filtersInit,
       loading: false,
-      success: false
+      success: false,
+      error: null
     };
 
     this.onUpdateWishListId = this.onUpdateWishListId.bind(this);
@@ -147,8 +149,17 @@ class App extends Component {
       this.state.wishListId,
       this.excludeDefaultFilters(this.state.filters)
     );
-    if (movies) {
-      this.setState({ movies: movies.movieList });
+
+    if (movies && movies.movieList && movies.movieList.length > 0) {
+      this.setState({ movies: movies.movieList, error: null });
+    } else if (movies && movies.message) {
+      this.setState({ movies: [], error: movies.message });
+    } else {
+      this.setState({
+        movies: [],
+        error:
+          "An unknown error has occurred please try later or with a different wishlist"
+      });
     }
     this.setState({ loading: false });
   }
@@ -189,19 +200,16 @@ class App extends Component {
               onUpdate={this.onUpdateWishListId}
               wishListId={this.state.wishListId}
             />
-            <div className={classes.wrapper}>
-              <Button
-                variant="contained"
-                color="primary"
-                style={styles.button}
-                label={"Get Movies!"}
-                className={buttonClassname}
-                disabled={this.state.loading}
-                onClick={this.fetchMovies}
-              >
-                Get Movies!
-              </Button>
-            </div>
+            <Button
+              variant="contained"
+              color="primary"
+              style={staticStyles.button}
+              label={"Get Movies!"}
+              disabled={this.state.loading}
+              onClick={this.fetchMovies}
+            >
+              Get Movies!
+            </Button>
 
             <Hidden mdUp>
               <Button
@@ -224,6 +232,7 @@ class App extends Component {
             )}
 
           <Movies movies={this.state.movies} />
+          {this.state.error && <Error message={this.state.error} />}
         </main>
       </div>
     );

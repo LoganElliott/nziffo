@@ -32,11 +32,12 @@ const styles = () => ({
     fontSize: "22px"
   },
   filterContainerDesktop: {
+    position: "fixed",
     display: "flex",
     alignItems: "center",
     flexDirection: "column",
     flexGrow: 1,
-    margin: "60px 0"
+    margin: "9px 0"
   },
   filterContainerMobile: {
     display: "flex",

@@ -17,8 +17,11 @@ export const fetchMovies = async (wishListId, filters) => {
   let data;
   try {
     let myHeaders = new Headers();
-    myHeaders.append("Access-Control-Allow-Origin", "*");
-    myHeaders.append("Access-Control-Allow-Methods", "*");
+    myHeaders.append(
+      "Access-Control-Allow-Origin",
+      "https://nzff-backend.herokuapp.com"
+    );
+    myHeaders.append("Access-Control-Allow-Methods", "POST");
     myHeaders.append("Content-Type", "application/json");
 
     const myInit = {

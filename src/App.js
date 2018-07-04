@@ -133,7 +133,7 @@ class App extends Component {
   }
 
   onUpdateFilters(filters) {
-    this.setState({ filters }, this.fetchMovies);
+    this.setState({ filters });
   }
 
   excludeDefaultFilters(filters) {
@@ -152,14 +152,14 @@ class App extends Component {
 
     if (movies && movies.movieList && movies.movieList.length > 0) {
       this.setState({ movies: movies.movieList, error: null });
-    } else if (movies && movies.message) {
-      this.setState({ movies: [], error: movies.message });
-    } else {
+    } else if (movies.message.message || !movies) {
       this.setState({
         movies: [],
         error:
           "An unknown error has occurred please try later or with a different wishlist"
       });
+    } else if (movies && movies.message) {
+      this.setState({ movies: [], error: movies.message });
     }
     this.setState({ loading: false });
   }

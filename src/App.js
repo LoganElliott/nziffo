@@ -80,7 +80,7 @@ const filtersInit = daysInWeek.reduce((accumulator, day) => {
   accumulator[day] = {
     day: day,
     included: true,
-    from: moment().startOf("day"),
+    from: moment("2018-07-19 10:30:00"),
     to: moment().endOf("day")
   };
   return accumulator;

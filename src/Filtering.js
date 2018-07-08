@@ -84,15 +84,16 @@ class Filtering extends Component {
   };
 
   handleTimeRangeChange = name => range => {
-    let endTimeMinutes = (96 - range[1]) * 15;
+    let endTimeMinutes = (28 - range[1]) * 30;
 
-    if (range[1] < 96) {
+    if (range[1] < 28) {
       endTimeMinutes--;
     }
 
-    const startTime = moment()
-      .startOf("day")
-      .add(range[0] * 15, "minutes");
+    const startTime = moment("2018-07-19 10:30:00").add(
+      range[0] * 30,
+      "minutes"
+    );
     const endTime = moment()
       .endOf("day")
       .subtract(endTimeMinutes, "minutes");
@@ -124,16 +125,16 @@ class Filtering extends Component {
             <div style={styles().from}>{day.from.format("LT")}</div>
             <Range
               allowCross={false}
-              defaultValue={[0, 96]}
+              defaultValue={[0, 28]}
               onChange={this.handleTimeRangeChange(day.day)}
-              pushable={4}
+              pushable={2}
               style={styles().slider}
               trackStyle={[{ backgroundColor: "#3f51b5" }]}
               handleStyle={[
                 { borderColor: "#3f51b5" },
                 { borderColor: "#3f51b5" }
               ]}
-              max={96}
+              max={28}
             />
             <div style={styles().to}>{day.to.format("LT")}</div>
           </div>

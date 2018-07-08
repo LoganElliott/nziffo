@@ -66,7 +66,7 @@ const Movie = ({ movie, index }) => (
             minutes
           </Typography>
           <Typography gutterBottom variant="subheading">
-            {moment(movie.startTime).format("ddd LT l")}
+            {moment(movie.startTime).format("ddd h:mm A DD/MM/YY")}
           </Typography>
         </div>
       </div>
